@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_task">
+
+    <fragment
+        android:id="@+id/nav_task"
+        android:name="com.example.tm.ui.task.TaskFragment"
+        android:label="@string/menu_task"
+        tools:layout="@layout/fragment_task" >
+        <action
+            android:id="@+id/action_nav_task_to_addTaskFragment"
+            app:destination="@id/addTaskFragment"
+            app:enterAnim="@anim/nav_default_enter_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_setting"
+        android:name="com.example.tm.ui.setting.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_setting" />
+
+    <fragment
+        android:id="@+id/nav_employee"
+        android:name="com.example.tm.ui.employee.EmployeeFragment"
+        android:label="@string/menu_employee"
+        tools:layout="@layout/fragment_employee" >
+        <action
+            android:id="@+id/action_nav_employee_to_addEmployeeFragment"
+            app:destination="@id/addEmployeeFragment"
+            app:enterAnim="@anim/nav_default_enter_anim" />
+        <action
+            android:id="@+id/action_nav_employee_to_addTaskFragment"
+            app:destination="@id/addTaskFragment"
+            app:enterAnim="@anim/nav_default_enter_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEmployeeFragment"
+        android:name="com.example.tm.ui.employee.add.AddEmployeeFragment"
+        android:label="@string/menu_employee"
+        tools:layout="@layout/fragment_add_employee">
+        <action
+            android:id="@+id/action_addEmployeeFragment_to_addTaskFragment"
+            app:destination="@id/addTaskFragment"
+            app:enterAnim="@anim/nav_default_enter_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/addTaskFragment"
+        android:name="com.example.tm.ui.task.add.AddTaskFragment"
+        android:label="@string/menu_task"
+        tools:layout="@layout/fragment_add_task" />
+    <activity
+        android:id="@+id/authorizationActivity"
+        android:name="com.example.tm.ui.authorization.AuthorizationActivity"
+        android:label="activity_authorization"
+        tools:layout="@layout/activity_authorization" />
+</navigation>
