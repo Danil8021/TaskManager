@@ -40,16 +40,16 @@ public class AuthorizationViewModel extends AndroidViewModel {
         }
 
 
-//        Employee emp = new Employee ();
-//        emp.firstName = "Данил";
-//        emp.surname = "Чанков";
-//        emp.patronymic = "Андреевич";
-//        emp.position = "Директор";
-//        emp.login = "abc";
-//        emp.password = "abc";
-//        emp.isDirector = true;
-//
-//        employeeRepository.insert ( emp );
+        Employee emp = new Employee ();
+        emp.firstName = "Данил";
+        emp.surname = "Чанков";
+        emp.patronymic = "Андреевич";
+        emp.position = "Директор";
+        emp.login = "abc";
+        emp.password = "abc";
+        emp.isDirector = true;
+
+        employeeRepository.insert ( emp );
 
 
         employeeList = employeeRepository.getEmployee ();

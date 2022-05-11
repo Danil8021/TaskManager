@@ -6,10 +6,12 @@
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.192" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/drawable/ac_image.xml" value="0.192" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/drawable/ic_baseline_account_circle_24.xml" value="0.192" />
+        <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.2195" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/drawable/ic_launcher_background.xml" value="0.192" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/drawable/ic_menu_camera.xml" value="0.12" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.192" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.192" />
+        <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/drawable/roundedbutton.xml" value="0.2195" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/drawable/side_nav_bar.xml" value="0.16799999999999998" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/activity_authorization.xml" value="0.1" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/activity_main.xml" value="0.21784420289855072" />
@@ -19,7 +21,7 @@
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/fragment_add_task.xml" value="0.176" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/fragment_employee.xml" value="0.21784420289855072" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/fragment_setting.xml" value="0.152" />
-        <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/fragment_task.xml" value="0.21784420289855072" />
+        <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/fragment_task.xml" value="0.2" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/item_employee_list.xml" value="0.5303643724696356" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/item_task_list.xml" value="0.264" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/nav_header_main.xml" value="0.4" />

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.example.tm.MainActivity;
 import com.example.tm.employee.Employee;
 import com.example.tm.employee.EmployeeAdapter;
 import com.example.tm.EmployeeRepository;
@@ -28,11 +29,10 @@ public class AddEmployeeViewModel extends AndroidViewModel {
         super ( application );
         employeeRepository = new EmployeeRepository ( application );
         taskRepository = new TaskRepository ( application );
-        taskLive = taskRepository.getTasks ( EmployeeAdapter.Employee.id );
     }
 
     public LiveData<List<Task>> getTaskList(){
-        return taskLive;
+        return taskLive = taskRepository.getTasks ( MainActivity.AuthorizationEmployee.id );
     }
 
     public boolean addEmployee(String surname, String firstName, String patronymic, String position, String login, String password){
@@ -43,7 +43,7 @@ public class AddEmployeeViewModel extends AndroidViewModel {
         employee.surname = surname.trim();
         employee.firstName = firstName.trim();
         employee.patronymic = patronymic.trim();
-        employee.position = position.toString();
+        employee.position = position;
         employee.login = login.trim();
         employee.password = password.trim();
         employee.isDirector = false;
@@ -57,7 +57,7 @@ public class AddEmployeeViewModel extends AndroidViewModel {
         }employee.surname = surname.trim();
         employee.firstName = firstName.trim();
         employee.patronymic = patronymic.trim();
-        employee.position = position.toString();
+        employee.position = position;
         employee.login = login.trim();
         employee.password = password.trim();
         employeeRepository.update ( employee );

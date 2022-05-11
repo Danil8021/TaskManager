@@ -51,9 +51,9 @@ public class SettingsFragment extends Fragment {
             }
         } );
 
-        if (vm.getLanguage () == "en")
+        if (vm.getLanguage ( ).equals ( "en" ))
             languageSpinner.setSelection ( 0 );
-        else
+        if (vm.getLanguage ( ).equals ( "ru" ))
             languageSpinner.setSelection ( 1 );
 
         languageSpinner.setOnItemSelectedListener ( new AdapterView.OnItemSelectedListener ( ) {
