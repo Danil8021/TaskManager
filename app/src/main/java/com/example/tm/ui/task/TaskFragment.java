@@ -8,29 +8,28 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.tm.MainActivity;
 import com.example.tm.R;
+import com.example.tm.databinding.FragmentTaskBinding;
 import com.example.tm.task.Task;
 import com.example.tm.task.TaskAdapter;
-import com.example.tm.TaskRepository;
-import com.example.tm.databinding.FragmentTaskBinding;
 import com.example.tm.ui.task.add.AddTaskFragment;
 import com.example.tm.ui.task.add.AddTaskViewModel;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class TaskFragment extends Fragment implements TaskAdapter.ReplaceFragmentTaskAdapter {
 
@@ -38,13 +37,15 @@ public class TaskFragment extends Fragment implements TaskAdapter.ReplaceFragmen
 
     ListView taskListView;
     TaskAdapter adapter;
+    ArrayList<Task> taskArrayList;
     Context context;
+    TaskViewModel vm;
 
     public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
 
         binding = FragmentTaskBinding.inflate(inflater, container, false);
 
-        TaskViewModel vm = new ViewModelProvider(this).get(TaskViewModel.class);
+        vm = new ViewModelProvider(this).get(TaskViewModel.class);
 
         View root = binding.getRoot();
         TextView messageTextView = root.findViewById( R.id.messageTextView);
@@ -54,20 +55,44 @@ public class TaskFragment extends Fragment implements TaskAdapter.ReplaceFragmen
 
         TaskAdapter.ReplaceFragmentTaskAdapter replaceFragmentTaskAdapter = this;
         TaskAdapter.checkEnable = true;
-        vm.getTaskList ().observe ( ( LifecycleOwner ) context , new Observer<List<Task>> ( ) {
+
+        vm.getTasksRef ()
+                .orderByChild ( "idEmployee" )
+                .equalTo ( vm.getAuth ().getCurrentUser ().getUid () )
+                .addValueEventListener ( new ValueEventListener ( ) {
                     @Override
-                    public void onChanged ( List<Task> tasks ) {
-                        if(tasks.isEmpty ())
-                            messageTextView.setVisibility ( View.VISIBLE );
-                        else{
-                            adapter = new TaskAdapter ( context, R.layout.item_task_list, tasks );
-                            adapter.setReplaceFragmentTaskAdapter ( replaceFragmentTaskAdapter );
-                            adapter.setContext ( vm.getApplication () );
+                    public void onDataChange ( @NonNull DataSnapshot snapshot ) {
+                        taskArrayList = new ArrayList<> (  );
+                        for (DataSnapshot task: snapshot.getChildren()) {
+                            Task newTask = task.getValue ( Task.class );
+                            if (newTask != null)
+                                taskArrayList.add ( newTask );
+                        }
+                        if (taskArrayList.size () > 0) {
+                            List<Task> t = taskArrayList;
+                            Collections.sort ( t , new Comparator<Task> ( ) {
+                                @Override
+                                public int compare ( Task o1 , Task o2 ) {
+                                    int c = Boolean.compare(o1.done,o2.done);
+                                    if (c == 0){
+                                        c = o1.getDate ().compareTo ( o2.getDate () );
+                                    }
+                                    return c;
+                                }
+                            } );
+                            adapter = new TaskAdapter ( context , R.layout.item_task_list , t, vm.getAuth ().getCurrentUser ().getUid () );
+                            adapter.setReplaceFragmentTaskAdapter (replaceFragmentTaskAdapter);
                             taskListView.setAdapter ( adapter );
                         }
+                        else
+                            messageTextView.setVisibility ( View.VISIBLE );
                     }
-        } );
 
+                    @Override
+                    public void onCancelled ( @NonNull DatabaseError e ) {
+                        Toast.makeText ( getContext () , e.getMessage () , Toast.LENGTH_SHORT ).show ( );
+                    }
+                } );
 
         Button add = root.findViewById ( R.id.addTaskButton );
         if (MainActivity.AuthorizationEmployee.isDirector){

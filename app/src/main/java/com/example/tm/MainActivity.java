@@ -7,18 +7,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.tm.employee.Employee;
-import com.example.tm.ui.setting.SettingsViewModel;
-import com.google.android.material.navigation.NavigationView;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tm.databinding.ActivityMainBinding;
+import com.example.tm.employee.Employee;
+import com.example.tm.ui.setting.SettingsViewModel;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.Locale;
 
@@ -27,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
 
-    EmployeeRepository employeeRepository;
+    Repository repository;
 
     public static Employee AuthorizationEmployee;
 
@@ -55,12 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate ( savedInstanceState );
 
-        Bundle arguments = getIntent().getExtras();
-        int idAuthorizationEmployee = arguments.getInt ( "idEmp" );
-
-        employeeRepository = new EmployeeRepository ( getApplication () );
-        AuthorizationEmployee = employeeRepository.getEmployeeById ( idAuthorizationEmployee );
-
         binding = ActivityMainBinding.inflate ( getLayoutInflater ( ) );
         setContentView ( binding.getRoot ( ) );
 
@@ -83,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
         String name = AuthorizationEmployee.surname + ' ' + AuthorizationEmployee.firstName + ' ' + AuthorizationEmployee.patronymic;
         tvName.setText ( name );
         tvPosition.setText ( AuthorizationEmployee.position );
-
     }
 
     @Override

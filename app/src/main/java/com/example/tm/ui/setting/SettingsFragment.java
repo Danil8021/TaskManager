@@ -10,15 +10,11 @@ import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.tm.MainActivity;
 import com.example.tm.R;
 import com.example.tm.databinding.FragmentSettingBinding;
-
-import java.util.Collections;
 
 public class SettingsFragment extends Fragment {
 

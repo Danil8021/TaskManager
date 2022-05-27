@@ -52,4 +52,8 @@
         <item>English</item>
         <item>Russian</item>
     </string-array>
+    <string name="btn_reg">Registration</string>
+    <string name="director_registered">Director registered</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="employee_added">Employee added</string>
 </resources>

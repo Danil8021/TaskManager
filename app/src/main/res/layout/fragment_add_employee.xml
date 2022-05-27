@@ -10,40 +10,55 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <Button
+            android:id="@+id/addEmployeeBtn"
+            android:text="@string/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"/>
         <LinearLayout
             android:id="@+id/linear"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_above="@+id/addEmployeeBtn">
+
+
             <EditText
                 android:id="@+id/surname_edit_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/surname"
+                android:layout_margin="10dp"
                 android:ems="14"
-                android:layout_margin="10dp"/>
+                android:hint="@string/surname"
+                android:inputType="textCapSentences" />
             <EditText
                 android:id="@+id/first_name_edit_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/name"
+                android:layout_margin="10dp"
                 android:ems="14"
-                android:layout_margin="10dp"/>
+                android:hint="@string/name"
+                android:inputType="textCapSentences"/>
             <EditText
                 android:id="@+id/patronymic_edit_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/patronymic"
+                android:layout_margin="10dp"
                 android:ems="14"
-                android:layout_margin="10dp"/>
+                android:hint="@string/patronymic"
+                android:inputType="textCapSentences"/>
             <EditText
                 android:id="@+id/position_edit_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/position"
+                android:layout_margin="10dp"
                 android:ems="14"
-                android:layout_margin="10dp"/>
+                android:hint="@string/position"
+                android:inputType="textCapSentences"/>
             <EditText
                 android:id="@+id/login_edit_text"
                 android:layout_width="wrap_content"
@@ -63,15 +78,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
-        <Button
-            android:id="@+id/addEmployeeBtn"
-            android:text="@string/save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/white"/>
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

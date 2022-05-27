@@ -1,45 +1,77 @@
 package com.example.tm.task;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.PrimaryKey;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-import java.util.Date;
-@Entity()
 public class Task {
 
-    @PrimaryKey(autoGenerate = true)
-    @SerializedName( "id" )
-    @Expose
-    public int id;
+    public String id;
 
-    @ColumnInfo
-    @SerializedName ( "heading" )
-    @Expose
     public String heading;
 
-    @ColumnInfo
-    @SerializedName ( "description" )
-    @Expose
     public String description;
 
-    @ColumnInfo
-    @SerializedName ( "date" )
-    @Expose
     public String date;
 
-    @ColumnInfo
-    @SerializedName ( "done" )
-    @Expose
     public boolean done;
 
-    @ColumnInfo
-    @SerializedName ( "employee_id" )
-    @Expose
-    public int employee_id;
+    public String idEmployee;
 
+    public Task () {
+    }
+
+    public Task ( String id , String heading , String description , String date , boolean done , String idEmployee ) {
+        this.id = id;
+        this.heading = heading;
+        this.description = description;
+        this.date = date;
+        this.done = done;
+        this.idEmployee = idEmployee;
+    }
+
+    public String getId () {
+        return id;
+    }
+
+    public void setId ( String id ) {
+        this.id = id;
+    }
+
+    public String getHeading () {
+        return heading;
+    }
+
+    public void setHeading ( String heading ) {
+        this.heading = heading;
+    }
+
+    public String getDescription () {
+        return description;
+    }
+
+    public void setDescription ( String description ) {
+        this.description = description;
+    }
+
+    public String getDate () {
+        return date;
+    }
+
+    public void setDate ( String date ) {
+        this.date = date;
+    }
+
+    public boolean isDone () {
+        return done;
+    }
+
+    public void setDone ( boolean done ) {
+        this.done = done;
+    }
+
+    public String getIdEmployee () {
+        return idEmployee;
+    }
+
+    public void setIdEmployee ( String idEmployee ) {
+        this.idEmployee = idEmployee;
+    }
 }

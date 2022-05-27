@@ -4,26 +4,22 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
-import com.example.tm.MainActivity;
-import com.example.tm.task.Task;
-import com.example.tm.TaskRepository;
-
-import java.util.List;
+import com.example.tm.Repository;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class TaskViewModel extends AndroidViewModel {
 
-    TaskRepository taskRepository;
-
-    LiveData<List<Task>> taskList;
+    Repository repository;
 
     public TaskViewModel ( @NonNull Application application ) {
         super ( application );
-        taskRepository = new TaskRepository ( application );
+        repository = new Repository ( application );
     }
-
-    public LiveData<List<Task>> getTaskList(){
-        return taskList = taskRepository.getTasks ( MainActivity.AuthorizationEmployee.id );
-    }
+    public FirebaseAuth getAuth(){return repository.getAuth ();}
+    public FirebaseDatabase getDB() {return repository.getDBFire ();}
+    public DatabaseReference getEmployeesRef () {return repository.getEmployeesRef ();}
+    public DatabaseReference getTasksRef () {return repository.getTasksRef ();}
 }

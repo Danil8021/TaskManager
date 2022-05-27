@@ -2,11 +2,6 @@ package com.example.tm.ui.task.add;
 
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +9,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+
 import com.example.tm.R;
+import com.example.tm.employee.EmployeeAdapter;
 import com.example.tm.task.Task;
 import com.example.tm.task.TaskAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddTaskFragment extends Fragment {
 
@@ -51,19 +57,63 @@ public class AddTaskFragment extends Fragment {
                 String heading = headingET.getText().toString().trim();
                 String description = descriptionET.getText().toString().trim();
                 String date = dateET.getText().toString();
+                if (heading.isEmpty () || description.isEmpty () || date.isEmpty ()){
+                    Toast.makeText ( getContext () , R.string.not_all_fields_are_filled_in , Toast.LENGTH_SHORT ).show ( );
+                    return;
+                }
+                DatabaseReference tasks = vm.getTasksRef ();
+                String key = tasks.push ().getKey ();
+
+                String idEmployee;
+                if (vm.bAdd){
+                    idEmployee = EmployeeAdapter.Employee.id;
+                }
+                else {
+                    idEmployee = vm.getAuth ().getUid ();
+                }
                 if (Add){
-                    if (vm.addTask ( heading, description, date )){
-                        Navigation.findNavController ( view ).navigateUp ();
-                    }
-                    else
-                        Toast.makeText ( getContext () , R.string.not_all_fields_are_filled_in , Toast.LENGTH_SHORT ).show ( );
+                    Task task = new Task();
+                    task.heading = heading;
+                    task.description = description;
+                    task.date = date;
+                    task.done = false;
+                    task.idEmployee = idEmployee;
+                    task.id = key;
+
+                    tasks.child ( key )
+                            .setValue ( task )
+                            .addOnSuccessListener ( new OnSuccessListener<Void> ( ) {
+                                @Override
+                                public void onSuccess ( Void unused ) {
+                                    Navigation.findNavController ( view ).navigateUp ();
+                                }
+                            } )
+                            .addOnFailureListener ( new OnFailureListener ( ) {
+                                @Override
+                                public void onFailure ( @NonNull Exception e ) {
+                                    Toast.makeText ( getContext () , e.getMessage () , Toast.LENGTH_SHORT ).show ( );
+                                }
+                            } );;
                 }
                 else{
-                    if (vm.updateTask ( TaskAdapter.Task, heading, description, date )){
-                        Navigation.findNavController ( view ).navigateUp ();
-                    }
-                    else
-                        Toast.makeText ( getContext ( ) , R.string.not_all_fields_are_filled_in , Toast.LENGTH_SHORT ).show ( );
+                        Map<String,Object> taskMap = new HashMap<String,Object> ();
+                        taskMap.put("heading", heading);
+                        taskMap.put("description",description);
+                        taskMap.put("date",date);
+                        tasks.child ( TaskAdapter.Task.id )
+                                .updateChildren ( taskMap )
+                                .addOnSuccessListener ( new OnSuccessListener<Void> ( ) {
+                                    @Override
+                                    public void onSuccess ( Void unused ) {
+                                        Navigation.findNavController ( view ).navigateUp ();
+                                    }
+                                } )
+                                .addOnFailureListener ( new OnFailureListener ( ) {
+                                    @Override
+                                    public void onFailure ( @NonNull Exception e ) {
+                                        Toast.makeText ( getContext () , e.getMessage () , Toast.LENGTH_SHORT ).show ( );
+                                    }
+                                } );
                 }
             }
         });

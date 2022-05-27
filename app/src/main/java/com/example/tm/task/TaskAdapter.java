@@ -14,34 +14,37 @@ import androidx.annotation.NonNull;
 
 import com.example.tm.MainActivity;
 import com.example.tm.R;
-import com.example.tm.TaskRepository;
-import com.example.tm.ui.employee.add.AddEmployeeFragment;
+import com.example.tm.Repository;
 import com.example.tm.ui.task.add.AddTaskViewModel;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TaskAdapter extends ArrayAdapter<Task> {
     private final LayoutInflater inflater;
     private final int layout;
     private final List<Task> tasks;
-    public static com.example.tm.task.Task Task;
+    public static Task Task;
 
-    TaskRepository taskRepository;
+    Repository repository;
     Application application;
 
     public static boolean checkEnable = true;
+    String employeeId;
 
     public interface ReplaceFragmentTaskAdapter{
         void onClick(View view);
     }
     ReplaceFragmentTaskAdapter replaceFragmentTaskAdapter;
 
-    public TaskAdapter ( @NonNull Context context, int resource, List<Task> tasks) {
+    public TaskAdapter ( @NonNull Context context, int resource, List<Task> tasks, String employeeId) {
         super(context, resource, tasks);
         this.inflater = LayoutInflater.from(context);
         this.layout = resource;
         this.tasks = tasks;
-        this.taskRepository = new TaskRepository ( application );
+        this.repository = new Repository ( application );
+        this.employeeId = employeeId;
     }
 
     public void setContext( Application application ){
@@ -79,7 +82,11 @@ public class TaskAdapter extends ArrayAdapter<Task> {
             public void onCheckedChanged ( CompoundButton compoundButton , boolean b ) {
                 Task = ( Task ) compoundButton.getTag ( );
                 Task.done = b;
-                taskRepository.update ( Task );
+                Map<String,Object> taskMap = new HashMap<String,Object> ();
+                taskMap.put("done", b);
+                repository.getTasksRef ()
+                        .child ( Task.id )
+                        .updateChildren ( taskMap );
             }
         } );
         return view;

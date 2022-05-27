@@ -47,6 +47,10 @@
     <string name="heading">Заголовок</string>
     <string name="description">Описание</string>
     <string name="date">Дата</string>
+    <string name="btn_reg">Регистрация</string>
+    <string name="director_registered">Директор зарегистрирован</string>
+    <string name="something_went_wrong">Что-то пошло не так</string>
+    <string name="employee_added">Сотрудник добавлен</string>
 
     <string-array name="language_array">
         <item>Английский</item>

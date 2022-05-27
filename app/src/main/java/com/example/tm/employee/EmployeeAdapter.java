@@ -10,9 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.example.tm.MainActivity;
 import com.example.tm.R;
-import com.example.tm.employee.Employee;
+import com.example.tm.MainActivity;
 import com.example.tm.ui.employee.add.AddEmployeeFragment;
 import com.example.tm.ui.task.add.AddTaskViewModel;
 
@@ -21,7 +20,7 @@ import java.util.List;
 public class EmployeeAdapter extends ArrayAdapter<Employee> {
     private final LayoutInflater inflater;
     private final int layout;
-    private final List<com.example.tm.employee.Employee> employees;
+    private final List<Employee> employees;
     public static Employee Employee;
 
     public interface ReplaceFragmentEmployeeAdapter{

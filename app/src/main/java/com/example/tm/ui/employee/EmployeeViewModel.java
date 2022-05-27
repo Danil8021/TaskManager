@@ -6,25 +6,33 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.example.tm.Repository;
 import com.example.tm.employee.Employee;
-import com.example.tm.EmployeeRepository;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
 public class EmployeeViewModel extends AndroidViewModel {
 
-    EmployeeRepository employeeRepository;
+    Repository repository;
 
     LiveData<List<Employee>> employeeList;
 
     public EmployeeViewModel ( @NonNull Application application ) {
         super ( application );
-        employeeRepository = new EmployeeRepository ( application );
-        employeeList = employeeRepository.getEmployeeWithoutDirector ();
+        repository = new Repository ( application );
     }
 
-    public LiveData<List<Employee>> getEmployeeListWithoutDirector() {
-        return employeeRepository.getEmployeeWithoutDirector ();
+    public FirebaseAuth getAuth(){
+        return repository.getAuth ();
     }
+    public FirebaseDatabase getDB() {return repository.getDBFire ();}
+    public DatabaseReference getEmployeesRef () {
+        return repository.getEmployeesRef ();
+    }
+//    public LiveData<List<Employee>> getEmployeeListWithoutDirector() {
+//    }
 
 }

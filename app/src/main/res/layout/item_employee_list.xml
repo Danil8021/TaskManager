@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layouat_margin="5dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <RelativeLayout
@@ -43,10 +42,8 @@
                 android:text="@string/add"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:textColor="@color/white" />
         </RelativeLayout>
     </RelativeLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,29 +1,33 @@
 package com.example.tm.ui.employee;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
+import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.example.tm.MainActivity;
-import com.example.tm.employee.Employee;
-import com.example.tm.employee.EmployeeAdapter;
 import com.example.tm.R;
 import com.example.tm.databinding.FragmentEmployeeBinding;
+import com.example.tm.employee.Employee;
+import com.example.tm.employee.EmployeeAdapter;
 import com.example.tm.ui.employee.add.AddEmployeeFragment;
 import com.example.tm.ui.task.add.AddTaskFragment;
 import com.example.tm.ui.task.add.AddTaskViewModel;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeFragment extends Fragment implements EmployeeAdapter.ReplaceFragmentEmployeeAdapter {
@@ -32,7 +36,9 @@ public class EmployeeFragment extends Fragment implements EmployeeAdapter.Replac
 
     public EmployeeAdapter.ReplaceFragmentEmployeeAdapter replaceFragmentEmployeeAdapter;
 
+    ArrayList<Employee> employeeArrayList;
     EmployeeAdapter adapter;
+    Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
@@ -58,19 +64,35 @@ public class EmployeeFragment extends Fragment implements EmployeeAdapter.Replac
         } );
 
         replaceFragmentEmployeeAdapter = this;
+        context = getActivity ();
+        vm.getEmployeesRef ()
+                .orderByChild ( "directorId" )
+                .equalTo ( MainActivity.AuthorizationEmployee.directorId )
+                .addValueEventListener ( new ValueEventListener ( ) {
+                    @Override
+                    public void onDataChange ( @NonNull DataSnapshot snapshot ) {
+                        employeeArrayList = new ArrayList<> (  );
+                        for (DataSnapshot emp: snapshot.getChildren()) {
+                            Employee newEmployee = emp.getValue ( Employee.class );
+                            if (newEmployee != null)
+                                if (!newEmployee.id.equals ( MainActivity.AuthorizationEmployee.id ))
+                                    employeeArrayList.add ( newEmployee );
+                        }
+                        if (employeeArrayList.size () > 0) {
+                            List<Employee> e = employeeArrayList;
+                            adapter = new EmployeeAdapter ( context , R.layout.item_employee_list , e );
+                            adapter.setReplaceFragmentEmployeeAdapter (replaceFragmentEmployeeAdapter);
+                            employeeListView.setAdapter ( adapter );
+                        }
+                        else
+                            messageTextView.setVisibility ( View.VISIBLE );
+                    }
 
-        vm.getEmployeeListWithoutDirector ().observe ( getActivity ( ) , new Observer<List<Employee>> ( ) {
-            @Override
-            public void onChanged ( List<Employee> employees ) {
-                if (employees.isEmpty ())
-                    messageTextView.setVisibility ( View.VISIBLE );
-                else {
-                    adapter = new EmployeeAdapter ( root.getContext (), R.layout.item_employee_list,employees );
-                    adapter.setReplaceFragmentEmployeeAdapter ( replaceFragmentEmployeeAdapter );
-                    employeeListView.setAdapter ( adapter );
-                }
-            }
-        } );
+                    @Override
+                    public void onCancelled ( @NonNull DatabaseError e ) {
+                        Toast.makeText ( getContext () , e.getMessage () , Toast.LENGTH_SHORT ).show ( );
+                    }
+                } );
         return root;
     }
 

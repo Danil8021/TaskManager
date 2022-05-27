@@ -30,6 +30,33 @@
             android:layout_height="wrap_content"
             android:ems="12"
             android:layout_margin="10dp" />
+        <EditText
+            android:id="@+id/surname_edit_text"
+            android:hint="@string/surname"
+            android:inputType="textCapSentences"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="12"
+            android:layout_margin="10dp"
+            android:visibility="gone"/>
+        <EditText
+            android:id="@+id/first_name_edit_text"
+            android:hint="@string/name"
+            android:inputType="textCapSentences"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="12"
+            android:layout_margin="10dp"
+            android:visibility="gone"/>
+        <EditText
+            android:id="@+id/patronymic_edit_text"
+            android:hint="@string/patronymic"
+            android:inputType="textCapSentences"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="12"
+            android:layout_margin="10dp"
+            android:visibility="gone"/>
         <Button
             android:id="@+id/btn_enter"
             android:text="@string/btn_enter"
@@ -38,5 +65,24 @@
             android:layout_margin="20dp"
             android:layout_gravity="center"
             android:textColor="@color/white"/>
-        </LinearLayout>
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_reg"
+        android:text="@string/btn_reg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/white"/>
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,16 +1,7 @@
 package com.example.tm.ui.employee.add;
 
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,34 +10,42 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+
 import com.example.tm.MainActivity;
+import com.example.tm.R;
 import com.example.tm.employee.Employee;
 import com.example.tm.employee.EmployeeAdapter;
-import com.example.tm.R;
 import com.example.tm.task.Task;
 import com.example.tm.task.TaskAdapter;
 import com.example.tm.ui.task.add.AddTaskFragment;
 import com.example.tm.ui.task.add.AddTaskViewModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.Map;
 
 public class AddEmployeeFragment extends Fragment implements TaskAdapter.ReplaceFragmentTaskAdapter {
 
     private AddEmployeeViewModel vm;
 
     public static boolean Add;
-
     Employee employee;
-
-    TaskAdapter taskAdapter;
-
+    TaskAdapter adapter;
+    ArrayList<Task> taskArrayList;
     Context context;
-
     TaskAdapter.ReplaceFragmentTaskAdapter replaceFragmentTaskAdapter;
 
     @Override
@@ -64,6 +63,8 @@ public class AddEmployeeFragment extends Fragment implements TaskAdapter.Replace
         ListView taskListView = (ListView ) view.findViewById ( R.id.taskListView );
 
         if (!Add) {
+            loginET.setEnabled ( false );
+            passwordET.setEnabled ( false );
             employee = EmployeeAdapter.Employee;
             surnameET.setText ( employee.surname );
             firstNameET.setText ( employee.firstName );
@@ -73,18 +74,41 @@ public class AddEmployeeFragment extends Fragment implements TaskAdapter.Replace
             passwordET.setText ( employee.password );
 
             context = getActivity ();
-
             replaceFragmentTaskAdapter = this;
-            vm.getTaskList ( ).observe ( ( LifecycleOwner ) context , new Observer<List<Task>> ( ) {
+            TaskAdapter.checkEnable = false;
+            vm.getTasksRef ()
+                    .orderByChild ( "idEmployee" )
+                    .equalTo ( employee.id )
+                    .addValueEventListener ( new ValueEventListener ( ) {
                         @Override
-                        public void onChanged ( List<Task> tasks ) {
-                            if (!tasks.isEmpty ( )) {
-                                TaskAdapter.checkEnable = false;
-                                taskAdapter = new TaskAdapter ( context   , R.layout.item_task_list , tasks );
-                                taskAdapter.setReplaceFragmentTaskAdapter ( replaceFragmentTaskAdapter );
-                                taskAdapter.setContext ( vm.getApplication ( ) );
-                                taskListView.setAdapter ( taskAdapter );
+                        public void onDataChange ( @NonNull DataSnapshot snapshot ) {
+                            taskArrayList = new ArrayList<> (  );
+                            for (DataSnapshot task: snapshot.getChildren()) {
+                                Task newTask = task.getValue ( Task.class );
+                                if (newTask != null)
+                                    taskArrayList.add ( newTask );
                             }
+                            if (taskArrayList.size () > 0) {
+                                List<Task> t = taskArrayList;
+                                Collections.sort ( t , new Comparator<Task> ( ) {
+                                    @Override
+                                    public int compare ( Task o1 , Task o2 ) {
+                                        int c = Boolean.compare(o1.done,o2.done);
+                                        if (c == 0){
+                                            c = o1.getDate ().compareTo ( o2.getDate () );
+                                        }
+                                        return c;
+                                    }
+                                } );
+                                adapter = new TaskAdapter ( context , R.layout.item_task_list , t, vm.getAuth ().getCurrentUser ().getUid () );
+                                adapter.setReplaceFragmentTaskAdapter (replaceFragmentTaskAdapter);
+                                taskListView.setAdapter ( adapter );
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled ( @NonNull DatabaseError e ) {
+                            Toast.makeText ( getContext () , e.getMessage () , Toast.LENGTH_SHORT ).show ( );
                         }
                     } );
         }
@@ -101,24 +125,88 @@ public class AddEmployeeFragment extends Fragment implements TaskAdapter.Replace
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                String surname = surnameET.getText ().toString ().trim ();
+                String firstName = firstNameET.getText ().toString ().trim ();
+                String patronymic = patronymicET.getText ().toString ().trim ();
+                String position = positionET.getText ().toString ().trim ();
+                String login = loginET.getText ().toString ().trim ();
+                String password = passwordET.getText ().toString ().trim ();
+
+                if (surname.isEmpty () || firstName.isEmpty () || patronymic.isEmpty () || position.isEmpty () || login.isEmpty () || password.isEmpty ()){
+                    Toast.makeText(getContext (), R.string.not_all_fields_are_filled_in,Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (Add){
-                    if (vm.addEmployee ( surnameET.getText ().toString (), firstNameET.getText ().toString (), patronymicET.getText ().toString (), positionET.getText ().toString (), loginET.getText ().toString (), passwordET.getText ().toString ())){
-                        Navigation.findNavController ( view ).navigateUp ();
-                    }
-                    else {
-                        Toast.makeText(getContext (), R.string.not_all_fields_are_filled_in,Toast.LENGTH_SHORT).show();
-                    }
+                    Employee newEmployee = new Employee (  );
+                    newEmployee.login = login;
+                    newEmployee.password = password;
+                    newEmployee.surname = surname;
+                    newEmployee.firstName = firstName;
+                    newEmployee.patronymic = patronymic;
+                    newEmployee.isDirector = false;
+                    newEmployee.position = position;
+                    vm.getAuth ().createUserWithEmailAndPassword ( login, password )
+                            .addOnSuccessListener ( new OnSuccessListener<AuthResult> ( ) {
+                                @Override
+                                public void onSuccess ( AuthResult authResult ) {
+                                    newEmployee.directorId = MainActivity.AuthorizationEmployee.id;
+                                    newEmployee.id = vm.getAuth ().getUid ();
+                                    vm.getEmployeesRef ()
+                                            .child ( newEmployee.id )
+                                            .setValue ( newEmployee )
+                                            .addOnSuccessListener ( new OnSuccessListener<Void> ( ) {
+                                                @Override
+                                                public void onSuccess ( Void unused ) {
+                                                    Toast.makeText ( getContext ( ) , getString( R.string.employee_added) , Toast.LENGTH_SHORT ).show ( );
+                                                    Navigation.findNavController ( view ).navigateUp ();
+                                                }
+                                            } )
+                                            .addOnFailureListener ( new OnFailureListener ( ) {
+                                                @Override
+                                                public void onFailure ( @NonNull Exception e ) {
+                                                    Toast.makeText ( getContext ( ) , e.getMessage () , Toast.LENGTH_SHORT ).show ( );
+                                                }
+                                            } );
+                                }
+                            } )
+                            .addOnFailureListener ( new OnFailureListener ( ) {
+                                @Override
+                                public void onFailure ( @NonNull Exception e ) {
+                                    Toast.makeText ( getContext ( ) , e.getMessage () , Toast.LENGTH_SHORT ).show ( );
+                                }
+                            } );
+                    vm.getAuth ().signInWithEmailAndPassword ( MainActivity.AuthorizationEmployee.login, MainActivity.AuthorizationEmployee.password );
                 }
                 else {
-                    if (vm.updateEmployee ( employee, surnameET.getText ( ).toString ( ) , firstNameET.getText ( ).toString ( ) , patronymicET.getText ( ).toString ( ) , positionET.getText ( ).toString ( ) , loginET.getText ( ).toString ( ) , passwordET.getText ( ).toString ( ) )) {
-                        Navigation.findNavController ( view ).navigateUp ();
-                    } else {
-                        Toast.makeText ( getContext ( ) , R.string.not_all_fields_are_filled_in , Toast.LENGTH_SHORT ).show ( );
-                    }
+                    Employee employee = EmployeeAdapter.Employee;
+                    Map<String,Object> taskMap = new HashMap<String,Object> ();
+                    taskMap.put("login", login);
+                    taskMap.put("password",password);
+                    taskMap.put("surname",surname);
+                    taskMap.put("firstName",firstName);
+                    taskMap.put("patronymic",patronymic);
+                    taskMap.put("position",position);
+
+                    vm.getEmployeesRef ()
+                            .child ( employee.id )
+                            .updateChildren ( taskMap )
+                            .addOnSuccessListener ( new OnSuccessListener<Void> ( ) {
+                                @Override
+                                public void onSuccess ( Void unused ) {
+                                    Navigation.findNavController ( view ).navigateUp ();
+                                }
+                            } )
+                            .addOnFailureListener ( new OnFailureListener ( ) {
+                                @Override
+                                public void onFailure ( @NonNull Exception e ) {
+                                    Toast.makeText ( getContext () , e.getMessage () , Toast.LENGTH_SHORT ).show ( );
+                                }
+                            } );
+                    vm.getAuth ().signInWithEmailAndPassword ( MainActivity.AuthorizationEmployee.login, MainActivity.AuthorizationEmployee.password );
                 }
             }
         });
-
         return view;
     }
 
