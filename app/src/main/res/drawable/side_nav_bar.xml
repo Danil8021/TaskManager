@@ -6,9 +6,9 @@
         android:startY="22.5"
         android:endX="41.25"
         android:endY="22.5"
-        android:centerColor="#95008A"
-        android:endColor="#3300FC"
-        android:startColor="#EB0000" />
+        android:centerColor="#c23000"
+        android:endColor="#c23000"
+        android:startColor="#c23000" />
 <!--    <gradient-->
 <!--        android:angle="135"-->
 <!--        android:centerColor="#009688"-->

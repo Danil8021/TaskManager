@@ -8,10 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-
-import com.example.tm.R;
 import com.example.tm.MainActivity;
+import com.example.tm.R;
 import com.example.tm.ui.employee.add.AddEmployeeFragment;
 import com.example.tm.ui.task.add.AddTaskViewModel;
 
@@ -29,7 +27,7 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
     }
     ReplaceFragmentEmployeeAdapter replaceFragmentEmployeeAdapter;
 
-    public EmployeeAdapter ( @NonNull Context context, int resource, List<Employee> employees) {
+    public EmployeeAdapter ( Context context, int resource, List<Employee> employees) {
         super(context, resource, employees);
         this.inflater = LayoutInflater.from(context);
         this.layout = resource;
@@ -47,6 +45,7 @@ public class EmployeeAdapter extends ArrayAdapter<Employee> {
             public void onClick ( View view ) {
                 Employee = getItem(position);
                 AddEmployeeFragment.Add = false;
+                AddEmployeeFragment.employee = Employee;
                 replaceFragmentEmployeeAdapter.itemClick ( view );
             }
         } );

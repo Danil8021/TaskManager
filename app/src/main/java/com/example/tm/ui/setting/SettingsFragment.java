@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,12 +18,10 @@ import com.example.tm.databinding.FragmentSettingBinding;
 public class SettingsFragment extends Fragment {
 
     private FragmentSettingBinding binding;
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        SettingsViewModel vm = new ViewModelProvider(this).get( SettingsViewModel.class);
-
+    public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentSettingBinding.inflate(inflater, container, false);
+
+        SettingsViewModel vm = new ViewModelProvider(this).get( SettingsViewModel.class);
 
         View root = binding.getRoot();
 

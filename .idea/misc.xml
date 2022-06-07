@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/drawable-anydpi/ic_action_name.xml" value="0.137" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.192" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/drawable/ac_image.xml" value="0.192" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/drawable/ic_baseline_account_circle_24.xml" value="0.192" />
@@ -13,7 +14,7 @@
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.192" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/drawable/roundedbutton.xml" value="0.2195" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/drawable/side_nav_bar.xml" value="0.16799999999999998" />
-        <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/activity_authorization.xml" value="0.136" />
+        <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/activity_authorization.xml" value="0.264" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/activity_main.xml" value="0.21784420289855072" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/app_bar_main.xml" value="0.176" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/content_main.xml" value="0.15625" />
@@ -21,13 +22,16 @@
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/fragment_add_task.xml" value="0.176" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/fragment_employee.xml" value="0.21784420289855072" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/fragment_setting.xml" value="0.152" />
-        <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/fragment_task.xml" value="0.2" />
+        <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/fragment_statistics.xml" value="0.176" />
+        <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/fragment_task.xml" value="0.29343629343629346" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/item_employee_list.xml" value="0.264" />
+        <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/item_statistics_list.xml" value="0.264" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/item_task_list.xml" value="0.264" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/layout/nav_header_main.xml" value="0.4" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/menu/activity_main_drawer.xml" value="0.4" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.192" />
         <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
+        <entry key="..\:/Users/chank/AndroidStudioProjects/TM/app/src/main/res/mipmap-anydpi-v26/ic_launcher_without_background.xml" value="0.137" />
       </map>
     </option>
   </component>

@@ -12,7 +12,7 @@
     <string name="menu_settings">Настройки</string>
     <string name="menu_employee">Сотрудники</string>
 
-    <string name="login">Логин</string>
+    <string name="login">Логин (Email)</string>
     <string name="password">Пароль</string>
     <string name="btn_enter">Войти</string>
     <string name="tasks">Задачи</string>
@@ -51,6 +51,10 @@
     <string name="director_registered">Директор зарегистрирован</string>
     <string name="something_went_wrong">Что-то пошло не так</string>
     <string name="employee_added">Сотрудник добавлен</string>
+    <string name="registration_is_required_for_the_head_of_the_group_if_you_are_not_one_then_contact_the_head_for_the_login_and_password_from_your_account">Регистрация необходима для главы группы, если вы не являетесь таковым, тогда обратитесь к главе за логином и паролем от вашего аккаунта</string>
+    <string name="completed">Выполнено:</string>
+    <string name="notCompleted">Невыполнено:</string>
+    <string name="statistics">Статистика</string>
 
     <string-array name="language_array">
         <item>Английский</item>

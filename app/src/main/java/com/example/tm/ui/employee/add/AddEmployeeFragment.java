@@ -18,7 +18,6 @@ import androidx.navigation.Navigation;
 import com.example.tm.MainActivity;
 import com.example.tm.R;
 import com.example.tm.employee.Employee;
-import com.example.tm.employee.EmployeeAdapter;
 import com.example.tm.task.Task;
 import com.example.tm.task.TaskAdapter;
 import com.example.tm.ui.task.add.AddTaskFragment;
@@ -42,7 +41,7 @@ public class AddEmployeeFragment extends Fragment implements TaskAdapter.Replace
     private AddEmployeeViewModel vm;
 
     public static boolean Add;
-    Employee employee;
+    public static Employee employee;
     TaskAdapter adapter;
     ArrayList<Task> taskArrayList;
     Context context;
@@ -65,7 +64,10 @@ public class AddEmployeeFragment extends Fragment implements TaskAdapter.Replace
         if (!Add) {
             loginET.setEnabled ( false );
             passwordET.setEnabled ( false );
-            employee = EmployeeAdapter.Employee;
+//            if (bEmployeeAdapter)
+//                employee = EmployeeAdapter.Employee;
+//            else
+//                employee = StatisticsAdapter.Employee;
             surnameET.setText ( employee.surname );
             firstNameET.setText ( employee.firstName );
             patronymicET.setText ( employee.patronymic );
@@ -179,7 +181,6 @@ public class AddEmployeeFragment extends Fragment implements TaskAdapter.Replace
                     vm.getAuth ().signInWithEmailAndPassword ( MainActivity.AuthorizationEmployee.login, MainActivity.AuthorizationEmployee.password );
                 }
                 else {
-                    Employee employee = EmployeeAdapter.Employee;
                     Map<String,Object> taskMap = new HashMap<String,Object> ();
                     taskMap.put("login", login);
                     taskMap.put("password",password);

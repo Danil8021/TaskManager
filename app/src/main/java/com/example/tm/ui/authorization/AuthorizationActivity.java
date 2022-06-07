@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,7 +43,8 @@ public class AuthorizationActivity extends AppCompatActivity {
 
     Context context;
     boolean reg = false;
-    EditText loginEditText, passwordEditText, surnameEditText, firstNameEditText, patronymicEditText;
+    TextView messageTextView;
+    EditText loginEditText, passwordEditText, surnameEditText, firstNameEditText, patronymicEditText, positionEditText;
     Button enterButton, regButton;
     ProgressBar progressBar;
     @Override
@@ -67,9 +69,11 @@ public class AuthorizationActivity extends AppCompatActivity {
         surnameEditText = findViewById ( R.id.surname_edit_text );
         firstNameEditText = findViewById ( R.id.first_name_edit_text );
         patronymicEditText = findViewById ( R.id.patronymic_edit_text );
+        positionEditText = findViewById ( R.id.position_edit_text );
         enterButton = findViewById ( R.id.btn_enter );
         regButton = findViewById ( R.id.btn_reg );
         progressBar = findViewById ( R.id.progress_bar );
+        messageTextView = findViewById ( R.id.messageTextView );
         context = this;
         enterButton.setOnClickListener ( view -> {
             progressBar.setVisibility ( View.VISIBLE );
@@ -81,11 +85,12 @@ public class AuthorizationActivity extends AppCompatActivity {
                 return;
             }
             if (reg){
-                String surname, firstName, patronymic;
-                surname = surnameEditText.getText ().toString ();
-                firstName = firstNameEditText.getText ().toString ();
-                patronymic = patronymicEditText.getText ().toString ();
-                if(surname.isEmpty () || firstName.isEmpty () || patronymic.isEmpty ()){
+                String surname, firstName, patronymic, position;
+                surname = surnameEditText.getText ().toString ().trim ();
+                firstName = firstNameEditText.getText ().toString ().trim ();
+                patronymic = patronymicEditText.getText ().toString ().trim ();
+                position = positionEditText.getText ().toString ().trim ();
+                if(surname.isEmpty () || firstName.isEmpty () || patronymic.isEmpty () || position.isEmpty ()){
                     Toast.makeText ( getApplication ( ) , R.string.fields_are_not_filled , Toast.LENGTH_SHORT ).show ( );
                     progressBar.setVisibility ( View.GONE);
                     return;
@@ -101,7 +106,7 @@ public class AuthorizationActivity extends AppCompatActivity {
                                 employee.firstName = firstName;
                                 employee.patronymic = patronymic;
                                 employee.isDirector = true;
-                                employee.position = "Директор";
+                                employee.position = position;
                                 employee.directorId = vm.getAuth ().getCurrentUser ().getUid();
                                 employee.id = vm.getAuth ().getUid ();
                                 vm.getEmployeesRef ().child ( employee.id ).setValue ( employee )
@@ -165,7 +170,6 @@ public class AuthorizationActivity extends AppCompatActivity {
                         } );
             }
         });
-
         regButton.setOnClickListener ( new View.OnClickListener ( ) {
             @Override
             public void onClick ( View v ) {
@@ -185,6 +189,8 @@ public class AuthorizationActivity extends AppCompatActivity {
             surnameEditText.setVisibility ( View.GONE );
             firstNameEditText.setVisibility ( View.GONE );
             patronymicEditText.setVisibility ( View.GONE );
+            positionEditText.setVisibility ( View.GONE );
+            messageTextView.setVisibility ( View.GONE );
             enterButton.setText ( R.string.btn_enter );
             regButton.setText ( R.string.btn_reg );
         }
@@ -198,6 +204,8 @@ public class AuthorizationActivity extends AppCompatActivity {
             surnameEditText.setVisibility ( View.VISIBLE );
             firstNameEditText.setVisibility ( View.VISIBLE );
             patronymicEditText.setVisibility ( View.VISIBLE );
+            positionEditText.setVisibility ( View.VISIBLE );
+            messageTextView.setVisibility ( View.VISIBLE );
             enterButton.setText ( R.string.btn_reg );
             regButton.setText ( R.string.btn_enter );
         }

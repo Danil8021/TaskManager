@@ -8,7 +8,6 @@ import androidx.lifecycle.AndroidViewModel;
 import com.example.tm.Repository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class AddTaskViewModel extends AndroidViewModel {
 
@@ -23,7 +22,6 @@ public class AddTaskViewModel extends AndroidViewModel {
     public FirebaseAuth getAuth(){
         return repository.getAuth ();
     }
-    public FirebaseDatabase getDB() {return repository.getDBFire ();}
     public DatabaseReference getEmployeesRef () { return repository.getEmployeesRef (); }
     public DatabaseReference getTasksRef () {
         return repository.getTasksRef ();

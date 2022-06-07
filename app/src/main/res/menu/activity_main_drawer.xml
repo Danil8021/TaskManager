@@ -11,6 +11,9 @@
             android:id="@+id/nav_employee"
             android:title="@string/employees" />
         <item
+            android:id="@+id/statisticsFragment"
+            android:title="@string/statistics"/>
+        <item
             android:id="@+id/nav_setting"
             android:title="@string/settings" />
         <item
